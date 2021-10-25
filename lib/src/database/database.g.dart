@@ -99,8 +99,7 @@ class TodoEntry extends DataClass implements Insertable<TodoEntry> {
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(id.hashCode,
-      $mrjc(content.hashCode, $mrjc(targetDate.hashCode, category.hashCode))));
+  int get hashCode => Object.hash(id, content, targetDate, category);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -190,51 +189,31 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, TodoEntry> {
   final String? _alias;
   $TodosTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedIntColumn id = _constructId();
-  GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
-  }
-
+  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+      'id', aliasedName, false,
+      typeName: 'INTEGER',
+      requiredDuringInsert: false,
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
   final VerificationMeta _contentMeta = const VerificationMeta('content');
-  @override
-  late final GeneratedTextColumn content = _constructContent();
-  GeneratedTextColumn _constructContent() {
-    return GeneratedTextColumn(
-      'content',
-      $tableName,
-      false,
-    );
-  }
-
+  late final GeneratedColumn<String?> content = GeneratedColumn<String?>(
+      'content', aliasedName, false,
+      typeName: 'TEXT', requiredDuringInsert: true);
   final VerificationMeta _targetDateMeta = const VerificationMeta('targetDate');
-  @override
-  late final GeneratedDateTimeColumn targetDate = _constructTargetDate();
-  GeneratedDateTimeColumn _constructTargetDate() {
-    return GeneratedDateTimeColumn(
-      'target_date',
-      $tableName,
-      true,
-    );
-  }
-
+  late final GeneratedColumn<DateTime?> targetDate = GeneratedColumn<DateTime?>(
+      'target_date', aliasedName, true,
+      typeName: 'INTEGER', requiredDuringInsert: false);
   final VerificationMeta _categoryMeta = const VerificationMeta('category');
-  @override
-  late final GeneratedIntColumn category = _constructCategory();
-  GeneratedIntColumn _constructCategory() {
-    return GeneratedIntColumn('category', $tableName, true,
-        $customConstraints: 'NULLABLE REFERENCES categories(id)');
-  }
-
+  late final GeneratedColumn<int?> category = GeneratedColumn<int?>(
+      'category', aliasedName, true,
+      typeName: 'INTEGER',
+      requiredDuringInsert: false,
+      $customConstraints: 'NULLABLE REFERENCES categories(id)');
   @override
   List<GeneratedColumn> get $columns => [id, content, targetDate, category];
   @override
-  $TodosTable get asDslTable => this;
+  String get aliasedName => _alias ?? 'todos';
   @override
-  String get $tableName => _alias ?? 'todos';
-  @override
-  final String actualTableName = 'todos';
+  String get actualTableName => 'todos';
   @override
   VerificationContext validateIntegrity(Insertable<TodoEntry> instance,
       {bool isInserting = false}) {
@@ -340,7 +319,7 @@ class Category extends DataClass implements Insertable<Category> {
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(id.hashCode, description.hashCode));
+  int get hashCode => Object.hash(id, description);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -405,33 +384,22 @@ class $CategoriesTable extends Categories
   final String? _alias;
   $CategoriesTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedIntColumn id = _constructId();
-  GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
-  }
-
+  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+      'id', aliasedName, false,
+      typeName: 'INTEGER',
+      requiredDuringInsert: false,
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
   final VerificationMeta _descriptionMeta =
       const VerificationMeta('description');
-  @override
-  late final GeneratedTextColumn description = _constructDescription();
-  GeneratedTextColumn _constructDescription() {
-    return GeneratedTextColumn(
-      'desc',
-      $tableName,
-      true,
-    );
-  }
-
+  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
+      'desc', aliasedName, true,
+      typeName: 'TEXT', requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [id, description];
   @override
-  $CategoriesTable get asDslTable => this;
+  String get aliasedName => _alias ?? 'categories';
   @override
-  String get $tableName => _alias ?? 'categories';
-  @override
-  final String actualTableName = 'categories';
+  String get actualTableName => 'categories';
   @override
   VerificationContext validateIntegrity(Insertable<Category> instance,
       {bool isInserting = false}) {
